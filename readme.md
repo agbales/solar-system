@@ -1,12 +1,12 @@
 # CSV
 
-A step-by-step lok at CSV methods and an example game of how they can be used in combination!
+A step-by-step look at CSV methods and example game to demonstrate how they can be used in combination!
 
 ## Getting Started
 
-When you download or clone this repo, you'll get the full lecture, notes, and files needed to run the game!
+Download or clone this repo, which contains the full lecture, notes, and necessary files.
 
-planets.rb has the entire lecture's code. You'll want to comment out the parts you're not using, moving step by step through new methods.
+planets.rb holds the lecture's code. You'll want to comment out the parts you're not using, moving step by step through new methods.
 
 To get started, navigate to the solar-system directory in the terminal. Then run:
 
