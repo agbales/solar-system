@@ -23,5 +23,7 @@ ruby planets.rb
 ## Get in Touch
 
 Quesetions? High fives? I'd love to hear from you. 
+
 E-mail: agbales@gmail.com
+
 Twitter: @agbales
