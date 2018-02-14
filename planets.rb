@@ -1,8 +1,7 @@
 require 'csv'
 require 'awesome_print'
 
-## Part 1 -- creating CSV & Reading it with 'CSV'
-## 1.1 -- Creating the CSV
+## Part 1 -- Creating CSV & Reading
 
 planets = [
   [1, "Mercury", 0.055, 0.4],
@@ -23,27 +22,27 @@ CSV.open("planet_data.csv", "w") do |file|
   end
 end
 
-# 1.2 -- CSV.read
-# Outputs an array of arrays
+# CSV.read outputs an array of arrays
 # => [ ["1", "Mercury",...], ["2", "Venus",...], ...]
 ap CSV.read("planet_data.csv")
 
 
 
-
-## Part 2 - appending a row
+## Part 2 - Appending & Reading Rows
 # The "a" mode starts at the end of the file
 planet_csv = CSV.open("planet_data.csv", "a") do |file|
   # at the end of the file, we add Jupiter
   file << [5, "Jupiter", 1234, 3321]
 end
 
-## Part 3 - see each row individually
+# .each to access every row individually
 CSV.open("planet_data.csv", "r").each do |row|
   ap row
 end
 
-## Part 4 -- headers
+
+
+## Part 3 -- Headers
 # Notice we can pass in options (more than one, if we like)
 csv_with_headers = CSV.open("planet_data.csv", "r", headers: true, header_converters: :symbol)
 # It's a CSV object!
@@ -58,6 +57,8 @@ CSV.open("planet_data.csv", "r+", headers: true, header_converters: :symbol).eac
   ap "#{row[:name]} is a great planet. It has a mass of #{row[:mass]} and a distance of #{row[:distance]}"
 end
 
+
+
 ## Part 5 -- CSV::Table methods
 # .read gives us access to those methods. See Ruby Docs for full list.
 csv = CSV.read("planet_data.csv", headers: true, header_converters: :symbol)
@@ -71,10 +72,9 @@ ap csv[3][:name] # 3rd row's name => "Mars"
 
 
 
-
 ## Part 6 -- Game!
-# catpix will let us print images in the terminal
-# launchy allows us to open and navigate a browser window
+# gem install catpix -- Catpix can print images in the terminal
+# gem install launchy -- Launchy can open and navigate a browser window
 require 'catpix'
 require 'launchy'
 
