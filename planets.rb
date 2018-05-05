@@ -81,18 +81,22 @@ def explore_planet()
   ap $solar_system_data.by_col[:name]
   prompt = "Where would you like to start? 0 - #{$solar_system_data.length}"
   ap prompt
-  user_input = gets.chomp
+  input = gets.chomp
+  $selected_planet = $solar_system_data[input.to_i]
 
   # solar_system_data.length == 14
   # This means we can grab the correct record by converting the
   # string .to_i and accessing it like so:
 
-  if $solar_system_data[user_input.to_i]
-    # If it exists, set it as our selected_planet data
-    $selected_planet = $solar_system_data[user_input.to_i]
-    # Print that planet data
-    ap $solar_system_data[user_input.to_i]
+  # Make sure planet exists & user input is numeric
+  until $selected_planet && /\d/.match(input)
+    ap prompt
+    input = gets.chomp
+    $selected_planet = $solar_system_data[input.to_i]
   end
+
+  # Print that planet data
+  ap $selected_planet
 
   prompt = "Do you want to LEARN or SEE?"
   ap prompt
