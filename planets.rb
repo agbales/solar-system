@@ -82,11 +82,9 @@ def explore_planet()
   prompt = "Where would you like to start? 0 - #{$solar_system_data.length}"
   ap prompt
   input = gets.chomp
+  # Remember, solar_system_data.length == 14
+  # We can grab the correct record with input.to_i
   $selected_planet = $solar_system_data[input.to_i]
-
-  # solar_system_data.length == 14
-  # This means we can grab the correct record by converting the
-  # string .to_i and accessing it like so:
 
   # Make sure planet exists & user input is numeric
   until $selected_planet && /\d/.match(input)
