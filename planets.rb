@@ -73,44 +73,75 @@ require 'launchy'
 
 # CSV.read the Solar System.csv file; it's our database for the game
 # The options will give us a hash, convertng the headers into symbols
-solar_system_data = CSV.read("Solar System.csv", headers: true, header_converters: :symbol)
-ap solar_system_data.class # CSV::Table < Object
-
+$solar_system_data = CSV.read("Solar System.csv", headers: true, header_converters: :symbol)
+ap $solar_system_data.class # CSV::Table < Object
 ap "WELCOME TO THE SOLAR SYSTEM!"
-ap solar_system_data.by_col[:name]
-ap "Where would you like to start? 0 - #{solar_system_data.length}"
-user_input = gets.chomp
-# solar_system_data.length == 14
-# This means we can grab the correct record by converting the
-# string .to_i and accessing it like so:
-if solar_system_data[user_input.to_i]
-  # If it exists, set it as our selected_planet data
-  selected_planet = solar_system_data[user_input.to_i]
-  # And print that record data
-  ap solar_system_data[user_input.to_i]
-end
 
-ap "Do you want to LEARN or SEE?"
-input = gets.chomp
-# downcase helps errors due to alternate capitlizations
-if input.downcase == "learn"
-  # Launchy opens a new window, navigates to the selected_planet page
-  Launchy.open(selected_planet[:uri])
-elsif input.downcase == "see"
-  # Catpix prints the image at the file path stored at selected_planet[:image]
-  # Be sure your images are within the Images folder in Solar-Data folder
-  Catpix::print_image selected_planet[:image]
-end
+def explore_planet()
+  ap $solar_system_data.by_col[:name]
+  prompt = "Where would you like to start? 0 - #{$solar_system_data.length}"
+  ap prompt
+  user_input = gets.chomp
 
-# The options are endless, but let's do one more feature.
-# Here, we can pick an attribute to look up values for each record.
-ap "Let's sort by attribute. Write the attribute you want to review!"
-# The headers are our attributes, so we print them as our options
-ap solar_system_data.headers.to_s
-attribute = gets.chomp
-ap "Here are the #{attribute} findings:"
-# Iterate through listings to provide an interpolated answer.
-solar_system_data.each do |row|
-  # The current Row name / attribute requested / .to_sym converts string to appropriate symbol
-  ap "#{row[:name]} --> #{attribute}: #{row[attribute.to_sym]}"
+  # solar_system_data.length == 14
+  # This means we can grab the correct record by converting the
+  # string .to_i and accessing it like so:
+
+  if $solar_system_data[user_input.to_i]
+    # If it exists, set it as our selected_planet data
+    $selected_planet = $solar_system_data[user_input.to_i]
+    # Print that planet data
+    ap $solar_system_data[user_input.to_i]
+  end
+
+  prompt = "Do you want to LEARN or SEE?"
+  ap prompt
+
+  while input = gets.chomp
+    # downcase helps errors due to alternate capitlizations
+    case input.downcase
+    when "learn"
+      # Launchy opens a new window, navigates to the selected_planet page
+      Launchy.open($selected_planet[:uri])
+      return
+    when "see"
+      # Catpix prints the image at the file path stored at selected_planet[:image]
+      # Be sure your images are within the Images folder in Solar-Data folder
+      Catpix::print_image $selected_planet[:image]
+      return
+    else
+      ap prompt
+    end
+  end
+end
+explore_planet()
+
+def select_attribute()
+  # The options are endless, but let's do one more feature.
+  # Here, we can pick an attribute to look up values for each record.
+  ap "Which attribute do want to see for each planet (ex: number_of_moons)?"
+  # The headers are our attributes, so we print them as our options
+  ap $solar_system_data.headers.to_s
+  attribute = gets.chomp
+  ap "Here are the #{attribute} findings:"
+  # Iterate through listings to provide an interpolated answer.
+  $solar_system_data.each do |row|
+    # The current Row name / attribute requested / .to_sym converts string to appropriate symbol
+    ap "#{row[:name]} --> #{attribute}: #{row[attribute.to_sym]}"
+  end
+end
+select_attribute()
+
+prompt = "SELECT another attribute or EXPLORE another planet?"
+ap prompt
+
+while input = gets.chomp
+  case input.downcase
+  when "select"
+    select_attribute()
+  when "explore"
+    explore_planet()
+  else
+    ap prompt
+  end
 end
