@@ -142,6 +142,7 @@ def select_attribute()
   # The headers are our attributes, so we print them as our options
   ap $solar_system_data.headers.to_s
   attribute = gets.chomp
+
   ap "Here are the #{attribute} findings:"
   # Iterate through listings to provide an interpolated answer.
   $solar_system_data.each do |row|
